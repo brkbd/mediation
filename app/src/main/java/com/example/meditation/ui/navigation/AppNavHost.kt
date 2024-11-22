@@ -61,7 +61,7 @@ fun AppNavHost(
     ) {
         composable(route = Destinations.SPLASH_ROUTE) {
             SplashScreen {
-                navController.navigate(Destinations.LOGIN_ROUTE) {
+                navController.navigate(Destinations.HOME_ROUTE) {
                     popUpTo(Destinations.SPLASH_ROUTE) {
                         inclusive = true
                     }
@@ -69,55 +69,55 @@ fun AppNavHost(
             }
         }
 
-        composable(route = Destinations.LOGIN_ROUTE) {
-            val result by loginViewModel.result.collectAsState()
-            LoginScreen(
-                onLogin = {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        withContext(Dispatchers.IO) {
-                            loginViewModel.onLoginPressed()
-                            Log.d("DEBUG", "login navHost $result")
-                        }
-                        if (result) {
-                            navController.navigate(Destinations.HOME_ROUTE)
-                        } else {
-                            Toast.makeText(
-                                MainActivity.appContext,
-                                "用户名不存在或密码错误",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        loginViewModel.cleanSignUpState()
-                    }
-                },
-                navigateToSignUp = { navController.navigate(Destinations.SIGNUP_ROUTE) },
-                loginViewModel = loginViewModel
-            )
-        }
-
-        composable(route = Destinations.SIGNUP_ROUTE) {
-            val result by signUpViewModel.result.collectAsState()
-            SignUpScreen(
-                onSignUp = {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        withContext(Dispatchers.IO) {
-                            signUpViewModel.onSignUpPressed()
-                        }
-                        Log.d("DEBUG", "result value in navHost $result")
-                        if (result) {
-                            navController.popBackStack()
-                        } else {
-                            Toast.makeText(
-                                MainActivity.appContext,
-                                "用户名已存在",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        signUpViewModel.cleanSignUpState()
-                    }
-                }, signUpViewModel = signUpViewModel
-            )
-        }
+//        composable(route = Destinations.LOGIN_ROUTE) {
+//            val result by loginViewModel.result.collectAsState()
+//            LoginScreen(
+//                onLogin = {
+//                    CoroutineScope(Dispatchers.Main).launch {
+//                        withContext(Dispatchers.IO) {
+//                            loginViewModel.onLoginPressed()
+//                            Log.d("DEBUG", "login navHost $result")
+//                        }
+//                        if (result) {
+//                            navController.navigate(Destinations.HOME_ROUTE)
+//                        } else {
+//                            Toast.makeText(
+//                                MainActivity.appContext,
+//                                "用户名不存在或密码错误",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                        loginViewModel.cleanSignUpState()
+//                    }
+//                },
+//                navigateToSignUp = { navController.navigate(Destinations.SIGNUP_ROUTE) },
+//                loginViewModel = loginViewModel
+//            )
+//        }
+//
+//        composable(route = Destinations.SIGNUP_ROUTE) {
+//            val result by signUpViewModel.result.collectAsState()
+//            SignUpScreen(
+//                onSignUp = {
+//                    CoroutineScope(Dispatchers.Main).launch {
+//                        withContext(Dispatchers.IO) {
+//                            signUpViewModel.onSignUpPressed()
+//                        }
+//                        Log.d("DEBUG", "result value in navHost $result")
+//                        if (result) {
+//                            navController.popBackStack()
+//                        } else {
+//                            Toast.makeText(
+//                                MainActivity.appContext,
+//                                "用户名已存在",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                        signUpViewModel.cleanSignUpState()
+//                    }
+//                }, signUpViewModel = signUpViewModel
+//            )
+//        }
 
         composable(route = Destinations.HOME_ROUTE) {
             val musicIndex by settingViewModel.musicIndex.collectAsState()
